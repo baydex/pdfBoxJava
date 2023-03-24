@@ -29,9 +29,9 @@ public class generadorPDF {
     PDDocument documento;
     PDAcroForm formulario;
 
-    public generadorPDF(Persona usuario, String rutaPlantilla) {
-        camposDeTexto = usuario.getCamposTexto();
-        camposDeImagen = usuario.getCamposImagen();
+    public generadorPDF(Persona persona, String rutaPlantilla) {
+        camposDeTexto = persona.getCamposTexto();
+        camposDeImagen = persona.getCamposImagen();
         this.rutaPlantilla = rutaPlantilla;
     }
 
@@ -63,18 +63,18 @@ public class generadorPDF {
             rellenarCampoTexto(campo);
         }
     }
-    
-    private void rellenarCampoTexto(Map.Entry<String, String> campo) throws IOException{
-            String clave = campo.getKey();
-            String valor = campo.getValue();
 
-            PDField campoPDF = getCampo(clave);
-            
-            campoPDF.setValue(valor);
+    private void rellenarCampoTexto(Map.Entry<String, String> campo) throws IOException {
+        String nombreCampo = campo.getKey();
+        String valorCampo = campo.getValue();
+
+        PDField campoPDF = getCampo(nombreCampo);
+
+        campoPDF.setValue(valorCampo);
     }
 
-    private PDField getCampo(String clave) {
-        return formulario.getField(clave);
+    private PDField getCampo(String nombreCampo) {
+        return formulario.getField(nombreCampo);
     }
 
     private void completarCamposDeImagen() throws IOException {
@@ -83,27 +83,38 @@ public class generadorPDF {
         }
 
     }
-    
-    private void rellenarCampoImagen(Map.Entry<String, String> campo) throws IOException{  
-            String clave = campo.getKey();
-            String ruta = campo.getValue();
 
-            PDField campoPDF = getCampo(clave);
+    private void rellenarCampoImagen(Map.Entry<String, String> campo) throws IOException {
+        String nombreCampo = campo.getKey();
+        String rutaImagen = campo.getValue();
 
-            PDImageXObject imagen = cargarImagen(ruta);
+        PDField campoPDF = getCampo(nombreCampo);
 
-            dibujarImagen(campoPDF, imagen);
-           
-            // El campo flota encima de la imagen dibujada, debe ser reseteada su "apariencia" para que no se superponga sobre la imagen
-            ajustarPosicionDeCampo(campoPDF); 
+        PDImageXObject imagen = cargarImagen(rutaImagen);
+
+        dibujarImagen(campoPDF, imagen);
+
+        // El campo flota encima de la imagen dibujada, debe ser reseteada su "apariencia" para que no se superponga sobre la imagen
+        ajustarPosicionDeCampo(campoPDF);
     }
 
     private PDImageXObject cargarImagen(String ruta) throws IOException {
         File fileImage = new File(ruta);
         return PDImageXObject.createFromFile(fileImage.getAbsolutePath(), documento);
     }
-    
-    class DatosNuevaImagen{
+
+    private void dibujarImagen(PDField campoPDF, PDImageXObject imagen) throws IOException{
+
+        PDPageContentStream contenido;
+        DatosNuevaImagen datosImg = new DatosNuevaImagen(campoPDF);
+
+        contenido = new PDPageContentStream(documento, datosImg.pagina, datosImg.modoDeAgregado, datosImg.compresion);
+        contenido.drawImage(imagen, datosImg.x, datosImg.y, datosImg.width, datosImg.height);
+        contenido.close();
+    }
+
+    class DatosNuevaImagen {
+
         PDAnnotationWidget widgets;
         PDPage pagina;
 
@@ -111,38 +122,32 @@ public class generadorPDF {
         float width;
         float x;
         float y;
-        PDPageContentStream.AppendMode appendContent;
-        Boolean compress;
-        PDRectangle rectangulo;
-        public DatosNuevaImagen(PDField campoPDF){
-            appendContent = PDPageContentStream.AppendMode.APPEND;
-            compress = true;
-            
+        PDPageContentStream.AppendMode modoDeAgregado;
+        Boolean compresion;
+        PDRectangle elemento;
+
+        public DatosNuevaImagen(PDField campoPDF) {
+            modoDeAgregado = PDPageContentStream.AppendMode.APPEND;
+            compresion = true;
+
             widgets = campoPDF.getWidgets().get(0);
-            
+
             pagina = widgets.getPage();
-            rectangulo = widgets.getRectangle();
-            
+            elemento = widgets.getRectangle();
+
             guardarCoordenadas();
             guardarTamaño();
-            
+
         }
-        private void guardarCoordenadas(){
-            x = rectangulo.getLowerLeftX();
-            y = rectangulo.getLowerLeftY();
+
+        private void guardarCoordenadas() {
+            x = elemento.getLowerLeftX();
+            y = elemento.getLowerLeftY();
         }
-        private void guardarTamaño(){
-            height = rectangulo.getHeight();
-            width = rectangulo.getWidth();
-        }
-    }
-    
-    private void dibujarImagen(PDField campoPDF, PDImageXObject imagen) throws IOException {
-        
-        DatosNuevaImagen datos = new DatosNuevaImagen(campoPDF);
-        
-        try (PDPageContentStream contentStream = new PDPageContentStream(documento, datos.pagina, datos.appendContent , datos.compress)) {
-            contentStream.drawImage(imagen, datos.x, datos.y, datos.width, datos.height);
+
+        private void guardarTamaño() {
+            height = elemento.getHeight();
+            width = elemento.getWidth();
         }
     }
 
