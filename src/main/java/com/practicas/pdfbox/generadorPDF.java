@@ -21,7 +21,7 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDField;
  *
  * @author PRACTICAS
  */
-public class AutocompletadorPDF {
+public class generadorPDF {
 
     Map<String, String> camposDeTexto;
     Map<String, String> camposDeImagen;
@@ -29,7 +29,7 @@ public class AutocompletadorPDF {
     PDDocument documento;
     PDAcroForm formulario;
 
-    public AutocompletadorPDF(Usuario usuario, String rutaPlantilla) {
+    public generadorPDF(Persona usuario, String rutaPlantilla) {
         camposDeTexto = usuario.getCamposTexto();
         camposDeImagen = usuario.getCamposImagen();
         this.rutaPlantilla = rutaPlantilla;
@@ -43,7 +43,7 @@ public class AutocompletadorPDF {
             completarCamposDeImagen();
             guardarDocumento(rutaGuardadoDocumento);
             cerrarDocumento();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.err.println(e);
         }
     }

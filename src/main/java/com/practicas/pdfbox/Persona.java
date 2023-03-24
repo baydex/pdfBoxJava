@@ -11,12 +11,13 @@ import java.util.Map;
  *
  * @author PRACTICAS
  */
-public class Usuario {
+public class Persona {
 
     Map<String, String> camposDeTexto;
     Map<String, String> camposDeImagen;
 
-    public Usuario(){
+    public Persona(){
+        
         camposDeTexto = new HashMap<>();
         camposDeImagen = new HashMap<>();
 
@@ -26,7 +27,7 @@ public class Usuario {
     }
     
     private void completarCamposTexto(){
-        camposDeTexto.put("TU NOMBRE", "Alejandro Aguilera Olalde");
+        camposDeTexto.put("TU NOMBRE", "María Cristina Benedicta Montejano Merlos");
         camposDeTexto.put("DÍA", "23");
         camposDeTexto.put("MES", "03");
         camposDeTexto.put("AÑO", "2023");
@@ -69,17 +70,17 @@ public class Usuario {
     }
     
     private void completarCamposImagen(){
-        camposDeImagen.put("TU FOTO", "C:\\Users\\PRACTICAS\\Downloads\\profile.jpg");
-        camposDeImagen.put("ANULAR IZQUIERDO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("MEÑIQUE IZQUIERDO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("MEDIO IZQUIERDO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("ÍNDICE IZQUIERDO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("PULGAR IZQUIERDO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("PULGAR DERECHO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("ÍNDICE DERECHO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("MEDIO DERECHO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("ANULAR DERCHO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
-        camposDeImagen.put("MEÑIQUE DERECHO", "C:\\Users\\PRACTICAS\\Downloads\\huella.png");
+        camposDeImagen.put("TU FOTO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\profile.jpg");
+        camposDeImagen.put("ANULAR IZQUIERDO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("MEÑIQUE IZQUIERDO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("MEDIO IZQUIERDO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("ÍNDICE IZQUIERDO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("PULGAR IZQUIERDO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("PULGAR DERECHO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("ÍNDICE DERECHO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("MEDIO DERECHO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("ANULAR DERCHO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
+        camposDeImagen.put("MEÑIQUE DERECHO", "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\huella.png");
         
     }
     public Map<String, String> getCamposTexto() {

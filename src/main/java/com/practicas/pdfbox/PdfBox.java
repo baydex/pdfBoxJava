@@ -11,12 +11,12 @@ public class PdfBox {
 
     public static void main(String[] args){
         
-        String rutaPlantilla = "C:\\Users\\PRACTICAS\\Downloads\\CartillaIdentidad.pdf";
-        String rutaGuardadoDocumento = "C:\\Users\\PRACTICAS\\Downloads\\formulario-autocompletado.pdf";
+        String rutaPlantilla = "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\CartillaIdentidad.pdf";
+        String rutaGuardadoDocumento = "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\formulario-autocompletado.pdf";
         
-        Usuario usuario = new Usuario();
+        Persona persona = new Persona();
         
-        AutocompletadorPDF autoCompletadorPDF = new AutocompletadorPDF(usuario, rutaPlantilla);
+        generadorPDF autoCompletadorPDF = new generadorPDF(persona, rutaPlantilla);
         autoCompletadorPDF.AutoCompletarPDF(rutaGuardadoDocumento);
         
     }
