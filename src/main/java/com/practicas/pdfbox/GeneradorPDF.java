@@ -5,13 +5,8 @@ import com.itextpdf.forms.fields.PdfFormField;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import java.io.File;
@@ -77,7 +72,6 @@ public class GeneradorPDF {
     private void deshabilitarCampos(){
         for (PdfFormField entry : formulario.getFormFields().values()) {
             entry.setReadOnly(true);
-            
         }
     }
     
@@ -86,11 +80,12 @@ public class GeneradorPDF {
     }
     
     private void agregarMarcaDeAgua(String mensaje, String rutaGuardadoDocumento, Color color) throws IOException{
-        String rutaOrigenDocumento= rutaGuardadoDocumento + "_SeBusca.pdf";
+        String nuevaPlantilla= rutaGuardadoDocumento + "_SeBusca.pdf";
         rutaGuardadoDocumento+="_"+mensaje+".pdf";
         
-        File plantilla = new File(rutaOrigenDocumento);
+        File plantilla = new File(nuevaPlantilla);
         File archivoFinal = new File(rutaGuardadoDocumento);
+        
         documento = new PdfDocument(new PdfReader(plantilla), new PdfWriter(archivoFinal));
         
         Document document = new Document(documento);
@@ -103,7 +98,6 @@ public class GeneradorPDF {
         
         document.close();
         
-  
         documento.close();
     }
 }
