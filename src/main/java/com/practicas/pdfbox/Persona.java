@@ -33,7 +33,7 @@ public class Persona {
         camposDeTexto.put("DÍA", "23");
         camposDeTexto.put("MES", "03");
         camposDeTexto.put("AÑO", "2023");
-        camposDeTexto.put("PESO", "64");
+        camposDeTexto.put("PESO", "asdfghjklasdfghjk");
         camposDeTexto.put("COMPLEXIÓN", "Delgado");
         camposDeTexto.put("ESTATURA", "1.78");
         camposDeTexto.put("CICATRICES", "OPCIÓN 1");

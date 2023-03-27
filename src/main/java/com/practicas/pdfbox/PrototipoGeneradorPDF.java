@@ -1,19 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 package com.practicas.pdfbox;
 
 
 /**
  *
- * @author PRACTICAS
+ * @author Alejandro
  */
 public class PrototipoGeneradorPDF {
 
     public static void main(String[] args){
         
         String rutaPlantilla = "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\CartillaIdentidad.pdf";
-        String rutaGuardadoDocumento = "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\formulario-autocompletado.pdf";
+        String rutaGuardadoDocumento = "C:\\Users\\PRACTICAS\\Documents\\proyectos\\generarPDF\\";
         
         Persona persona = new Persona();
 

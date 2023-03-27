@@ -1,13 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.practicas.pdfbox;
 
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
 import java.io.IOException;
 import java.util.Map;
+
 
 /**
  *
@@ -18,7 +15,7 @@ class CamposTexto {
     Map<String, String> camposDeTexto;
     PdfAcroForm formulario;
     
-    CamposTexto(Map<String, String> listaCamposTexto, PdfAcroForm formulario) {
+    public CamposTexto(Map<String, String> listaCamposTexto, PdfAcroForm formulario) {
         this.camposDeTexto = listaCamposTexto;
         this.formulario = formulario;
     }
@@ -47,11 +44,6 @@ class CamposTexto {
             nombreCampo = campo.getKey();
             valorCampo = campo.getValue();
         }
-    }
-    
-    private void cambiarFuente(PdfFormField campoPDF) throws IOException {
-        //campoPDF.setFontSize(25);
-        
     }
     
     private PdfFormField getCampo(String nombreCampo) {

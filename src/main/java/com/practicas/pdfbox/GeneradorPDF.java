@@ -1,21 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.practicas.pdfbox;
 
 import com.itextpdf.forms.PdfAcroForm;
+import com.itextpdf.forms.fields.PdfFormField;
+import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- *
- * @author PRACTICAS
- */
 public class GeneradorPDF {
 
     String rutaPlantilla;
@@ -31,20 +33,23 @@ public class GeneradorPDF {
     }
 
     public void AutoCompletarPDF(String rutaGuardadoDocumento) {
+        rutaGuardadoDocumento += "76121";
         try {
             cargarDocumento(rutaGuardadoDocumento);
             cargarFormulario();
-            cargarCamposTexto();
-            cargarCamposImagen();
-            completarCamposTexto();
-            completarCamposImagen();
+            cargarCampos();
+            completarCampos();
+            deshabilitarCampos();
             cerrarDocumento();
+            agregarMarcaDeAgua("Localizada", rutaGuardadoDocumento, ColorConstants.RED);
+            agregarMarcaDeAgua("Desactivada", rutaGuardadoDocumento, ColorConstants.GRAY);
         } catch (IOException e) {
             System.err.println(e);
         }
     }
 
     private void cargarDocumento(String rutaGuardadoDocumento) throws IOException {
+        rutaGuardadoDocumento+="_SeBusca.pdf";
         File plantilla = new File(this.rutaPlantilla);
         File archivoFinal = new File(rutaGuardadoDocumento);
 
@@ -52,33 +57,53 @@ public class GeneradorPDF {
     }
     
     private void cargarFormulario() {
-        formulario = PdfAcroForm.getAcroForm(documento, true);
+        boolean crearSiNoExiste = true;
+        formulario = PdfAcroForm.getAcroForm(documento, crearSiNoExiste);
     }
 
-    private void cargarCamposTexto(){
+    private void cargarCampos(){
         Map<String, String> listaCamposTexto = persona.getCamposTexto();
-        camposTexto = new CamposTexto(listaCamposTexto, formulario);
-    }
-    
-    private void cargarCamposImagen(){
         Map<String, String> listaCamposImagen = persona.getCamposImagen();
-        camposImagen = new CamposImagen(listaCamposImagen, formulario, documento);
+        
+        camposTexto = new CamposTexto(listaCamposTexto, formulario);
+        camposImagen = new CamposImagen(listaCamposImagen, formulario);
     }
     
-    private void completarCamposTexto() throws IOException{
+    private void completarCampos() throws IOException{
         camposTexto.completarCamposDeTexto();
-    }
-    
-    private void completarCamposImagen() throws IOException{
         camposImagen.completarCamposDeImagen();
     }
 
-
+    private void deshabilitarCampos(){
+        for (PdfFormField entry : formulario.getFormFields().values()) {
+            entry.setReadOnly(true);
+            
+        }
+    }
+    
     private void cerrarDocumento() throws IOException {
         documento.close();
     }
-
     
-    
-     
+    private void agregarMarcaDeAgua(String mensaje, String rutaGuardadoDocumento, Color color) throws IOException{
+        String rutaOrigenDocumento= rutaGuardadoDocumento + "_SeBusca.pdf";
+        rutaGuardadoDocumento+="_"+mensaje+".pdf";
+        
+        File plantilla = new File(rutaOrigenDocumento);
+        File archivoFinal = new File(rutaGuardadoDocumento);
+        documento = new PdfDocument(new PdfReader(plantilla), new PdfWriter(archivoFinal));
+        
+        Document document = new Document(documento);
+        Paragraph texto = new Paragraph(mensaje);
+        texto.setRotationAngle(45);
+        texto.setFontSize(150);
+        texto.setFontColor(color);
+        texto.setFixedPosition(180, 30, 1000);
+        document.add(texto);
+        
+        document.close();
+        
+  
+        documento.close();
+    }
 }

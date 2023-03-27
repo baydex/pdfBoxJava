@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.practicas.pdfbox;
 
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfButtonFormField;
 import com.itextpdf.forms.fields.PdfFormField;
-import com.itextpdf.kernel.pdf.PdfDocument;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Map;
@@ -25,12 +18,10 @@ class CamposImagen {
 
     Map<String, String> camposDeImagen;
     PdfAcroForm formulario;
-    PdfDocument documento;
     
-    public CamposImagen(Map<String, String> listaCamposImagen, PdfAcroForm formulario, PdfDocument documento) {
+    public CamposImagen(Map<String, String> listaCamposImagen, PdfAcroForm formulario) {
         this.camposDeImagen = listaCamposImagen;
         this.formulario = formulario;
-        this.documento = documento;
     }
 
     public void completarCamposDeImagen() throws IOException {
@@ -74,7 +65,7 @@ class CamposImagen {
         return new File(valorCampo);
     }
     
-    private String convertirImagenABase64(File imagen) throws FileNotFoundException, IOException{
+    private String convertirImagenABase64(File imagen) throws IOException{
 
         byte[] imagenBytes = Files.readAllBytes(imagen.toPath());
         String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
