@@ -28,6 +28,8 @@ public class Persona {
     
     private void completarCamposTexto(){
         camposDeTexto.put("TU NOMBRE", "María Cristina Benedicta Montejano Merlos");
+        
+        
         camposDeTexto.put("DÍA", "23");
         camposDeTexto.put("MES", "03");
         camposDeTexto.put("AÑO", "2023");
@@ -67,6 +69,7 @@ public class Persona {
         camposDeTexto.put("RED SOCIAL 2", "");
         camposDeTexto.put("RED SOCIAL 3", "");
         camposDeTexto.put("RED SOCIAL 4", "");
+        
     }
     
     private void completarCamposImagen(){

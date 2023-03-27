@@ -8,27 +8,26 @@ import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfButtonFormField;
 import com.itextpdf.forms.fields.PdfFormField;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Map;
-import javax.management.InstanceNotFoundException;
-import org.apache.pdfbox.io.IOUtils;
 
 /**
  *
  * @author PRACTICAS
  */
-class CamposImagenIText {
+class CamposImagen {
 
     Map<String, String> camposDeImagen;
     PdfAcroForm formulario;
     PdfDocument documento;
     
-    public CamposImagenIText(Map<String, String> listaCamposImagen, PdfAcroForm formulario, PdfDocument documento) {
+    public CamposImagen(Map<String, String> listaCamposImagen, PdfAcroForm formulario, PdfDocument documento) {
         this.camposDeImagen = listaCamposImagen;
         this.formulario = formulario;
         this.documento = documento;
@@ -67,17 +66,18 @@ class CamposImagenIText {
     }
     
     private String procesarImagen(String valorCampo) throws FileNotFoundException, IOException{
-        InputStream imagen = leerImagen(valorCampo);
+        File imagen = leerImagen(valorCampo);
         return convertirImagenABase64(imagen);
     }
     
-    private String convertirImagenABase64(InputStream imagen) throws FileNotFoundException, IOException{
-        byte[] imagenBytes = IOUtils.toByteArray(imagen);
-        String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
-        return imagenBase64;
+    private File leerImagen(String valorCampo) throws FileNotFoundException{
+        return new File(valorCampo);
     }
     
-    private InputStream leerImagen(String valorCampo) throws FileNotFoundException{
-        return new FileInputStream(valorCampo);
+    private String convertirImagenABase64(File imagen) throws FileNotFoundException, IOException{
+
+        byte[] imagenBytes = Files.readAllBytes(imagen.toPath());
+        String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
+        return imagenBase64;
     }
 }
