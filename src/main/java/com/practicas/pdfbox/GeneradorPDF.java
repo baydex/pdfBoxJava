@@ -16,12 +16,12 @@ import java.util.Map;
 public class GeneradorPDF {
 
     String rutaPlantilla;
-    CamposTexto camposTexto;
-    CamposImagen camposImagen;
+    Campos camposTexto;
+    Campos camposImagen;
     PdfDocument documento;
     PdfAcroForm formulario;
     Persona persona;
-    
+
     public GeneradorPDF(Persona persona, String rutaPlantilla) {
         this.persona = persona;
         this.rutaPlantilla = rutaPlantilla;
@@ -36,58 +36,62 @@ public class GeneradorPDF {
             completarCampos();
             deshabilitarCampos();
             cerrarDocumento();
-            agregarMarcaDeAgua("Localizada", rutaGuardadoDocumento, ColorConstants.RED);
-            agregarMarcaDeAgua("Desactivada", rutaGuardadoDocumento, ColorConstants.GRAY);
+            agregarMarcasDeAgua(rutaGuardadoDocumento);
         } catch (IOException e) {
             System.err.println(e);
         }
     }
 
     private void cargarDocumento(String rutaGuardadoDocumento) throws IOException {
-        rutaGuardadoDocumento+="_SeBusca.pdf";
+        rutaGuardadoDocumento += "_SeBusca.pdf";
         File plantilla = new File(this.rutaPlantilla);
         File archivoFinal = new File(rutaGuardadoDocumento);
 
         documento = new PdfDocument(new PdfReader(plantilla), new PdfWriter(archivoFinal));
     }
-    
+
     private void cargarFormulario() {
         boolean crearSiNoExiste = true;
         formulario = PdfAcroForm.getAcroForm(documento, crearSiNoExiste);
     }
 
-    private void cargarCampos(){
+    private void cargarCampos() {
         Map<String, String> listaCamposTexto = persona.getCamposTexto();
         Map<String, String> listaCamposImagen = persona.getCamposImagen();
-        
+
         camposTexto = new CamposTexto(listaCamposTexto, formulario);
         camposImagen = new CamposImagen(listaCamposImagen, formulario);
     }
-    
-    private void completarCampos() throws IOException{
-        camposTexto.completarCamposDeTexto();
-        camposImagen.completarCamposDeImagen();
+
+    private void completarCampos() throws IOException {
+        camposTexto.completarCampos();
+        camposImagen.completarCampos();
     }
 
-    private void deshabilitarCampos(){
+    private void deshabilitarCampos() {
         for (PdfFormField entry : formulario.getFormFields().values()) {
             entry.setReadOnly(true);
         }
     }
-    
+
     private void cerrarDocumento() throws IOException {
         documento.close();
     }
-    
-    private void agregarMarcaDeAgua(String mensaje, String rutaGuardadoDocumento, Color color) throws IOException{
-        String nuevaPlantilla= rutaGuardadoDocumento + "_SeBusca.pdf";
-        rutaGuardadoDocumento+="_"+mensaje+".pdf";
-        
+
+    private void agregarMarcasDeAgua(String rutaGuardadoDocumento) throws IOException {
+        agregarMarcaDeAgua("Localizada", rutaGuardadoDocumento, ColorConstants.RED);
+        agregarMarcaDeAgua("Desactivada", rutaGuardadoDocumento, ColorConstants.GRAY);
+    }
+
+    private void agregarMarcaDeAgua(String mensaje, String rutaGuardadoDocumento, Color color) throws IOException {
+        String nuevaPlantilla = rutaGuardadoDocumento + "_SeBusca.pdf";
+        rutaGuardadoDocumento += "_" + mensaje + ".pdf";
+
         File plantilla = new File(nuevaPlantilla);
         File archivoFinal = new File(rutaGuardadoDocumento);
-        
+
         documento = new PdfDocument(new PdfReader(plantilla), new PdfWriter(archivoFinal));
-        
+
         Document document = new Document(documento);
         Paragraph texto = new Paragraph(mensaje);
         texto.setRotationAngle(45);
@@ -95,9 +99,10 @@ public class GeneradorPDF {
         texto.setFontColor(color);
         texto.setFixedPosition(180, 30, 1000);
         document.add(texto);
-        
+
         document.close();
-        
+
         documento.close();
     }
+
 }
