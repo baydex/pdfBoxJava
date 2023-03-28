@@ -1,4 +1,4 @@
-package com.practicas.pdfbox;
+package com.practicas.generadorpdf;
 
 
 /**

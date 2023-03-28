@@ -1,4 +1,4 @@
-package com.practicas.pdfbox;
+package com.practicas.generadorpdf.campos;
 
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
@@ -10,9 +10,9 @@ import java.util.Map;
  *
  * @author PRACTICAS
  */
-class CamposTexto extends CamposImp{
+public class CamposTextoFijo extends CamposImp{
     
-    public CamposTexto(Map<String, String> campos, PdfAcroForm formulario) {
+    public CamposTextoFijo(Map<String, String> campos, PdfAcroForm formulario) {
         super(campos, formulario);
     }
 

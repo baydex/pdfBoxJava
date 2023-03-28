@@ -1,5 +1,8 @@
-package com.practicas.pdfbox;
+package com.practicas.generadorpdf;
 
+import com.practicas.generadorpdf.campos.CamposImagen;
+import com.practicas.generadorpdf.campos.CamposTextoFijo;
+import com.practicas.generadorpdf.campos.Campos;
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
 import com.itextpdf.kernel.colors.Color;
@@ -59,7 +62,7 @@ public class GeneradorPDF {
         Map<String, String> listaCamposTexto = persona.getCamposTexto();
         Map<String, String> listaCamposImagen = persona.getCamposImagen();
 
-        camposTexto = new CamposTexto(listaCamposTexto, formulario);
+        camposTexto = new CamposTextoFijo(listaCamposTexto, formulario);
         camposImagen = new CamposImagen(listaCamposImagen, formulario);
     }
 
